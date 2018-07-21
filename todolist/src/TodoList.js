@@ -10,6 +10,9 @@ class TodoList extends Component {
       inputValue: '',
       list: []
     };
+    this.handleInputChange = this.handleInputChange.bind(this);
+    this.handleButtonClick = this.handleButtonClick.bind(this);
+    this.handleItemDelete = this.handleItemDelete.bind(this);
   }
 
   render() {
@@ -21,65 +24,61 @@ class TodoList extends Component {
             enter content:
           </label>
           <input
-          className='input'
-          id="insertArea"
-           value={this.state.inputValue}
-           onChange={this.handleInputChange.bind(this)}
+            className='input'
+            id="insertArea"
+            value={this.state.inputValue}
+            onChange={this.handleInputChange}
         />
-         <button onClick={this.handleButtonClick.bind(this)}>submit</button></div>
+         <button onClick={this.handleButtonClick}>submit</button></div>
         <ul>
-          {
-            this.state.list.map((item, index) => {
-              return (
-                <Fragment key={index}>
-                  <TodoItem
-                    content={item}
-                    index={index}
-                    deleteItem={this.handleItemDelete.bind(this)}
-                  />
-                  {/* <li
-                    key={index}
-                    onClick={this.handleItemDelete.bind(this, index)}
-                    dangerouslySetInnerHTML={{__html:item}}
-                    >
-                  </li> */}
-                </Fragment>
-            )
-            })
-          }
+          { this.getTodoItem() }
         </ul>
       </Fragment>
     )
   }
 
   handleInputChange(e) {
-    this.setState({
-      inputValue: e.target.value,
+    const value = e.target.value;
+    this.setState(() => ({
+      inputValue: value
+    }))
+  }
+
+  getTodoItem() {
+    return this.state.list.map((item, index) => {
+      return (
+        <Fragment key={index}>
+          <TodoItem
+            content={item}
+            index={index}
+            deleteItem={this.handleItemDelete}
+          />
+          {/* <li
+            key={index}
+            onClick={this.handleItemDelete.bind(this, index)}
+            dangerouslySetInnerHTML={{__html:item}}
+            >
+          </li> */}
+        </Fragment>
+    )
     })
   }
 
+
   handleButtonClick(e) {
-    if(this.state.inputValue === "") return;
-    this.state.list.push(this.state.inputValue);
-    this.setState({
-      list: this.state.list,
-    });
-    this.setState({
-      inputValue:'',
-    })
+    this.setState((prevState)=> ({
+      list: [...prevState.list, prevState.inputValue],
+      inputValue: ''
+    }))
   }
 
   handleItemDelete(index) {
-    const list = [...this.state.list];
-    list.splice(index, 1);
-
-this.setState({
-  list: list
-})
-
+    this.setState(prevState => {
+      const list = [...prevState.list];
+      list.splice(index, 1);
+      return {list};
+    })
   }
-
-
 }
 
 export default TodoList;
