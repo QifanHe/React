@@ -1,11 +1,14 @@
 import React, { Component, Fragment } from 'react';
 import './style.css'
 import TodoItem from './TodoItem'
+import Test from './Test'
 
 class TodoList extends Component {
 
   constructor(props) {
     super(props);
+    // when a component's state or props is changed
+    // render() function will be called
     this.state = {
       inputValue: '',
       list: []
