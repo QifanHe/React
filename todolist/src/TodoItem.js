@@ -9,10 +9,10 @@ class TodoItem extends React.Component {
   }
 
   render() {
-    const { content,test } = this.props;
+    const { content } = this.props;
     return (
       <div onClick={this.handleClick}>
-        {test} - { content }
+        { content }
       </div>
     )
   }
@@ -22,16 +22,20 @@ class TodoItem extends React.Component {
     deleteItem(index);
   }
 
+  shouldComponentUpdate(nextProps, nextState) {
+    if(nextProps.content !== this.props.content) {
+      return true;
+    }
+    return false;
+  }
+
+
 }
 TodoItem.propTypes = {
-  test: PropTypes.string.isReqiured,
   content: PropTypes.string,
   deleteItem: PropTypes.func,
   index: PropTypes.number
 }
 
-TodoItem.defaultProps = {
-  test: 'hello world'
-}
 
 export default TodoItem;
