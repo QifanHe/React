@@ -22,13 +22,20 @@ class TodoItem extends React.Component {
     deleteItem(index);
   }
 
+  shouldComponentUpdate(nextProps, nextState) {
+    if(nextProps.content !== this.props.content) {
+      return true;
+    }
+    return false;
+  }
+
+
 }
 TodoItem.propTypes = {
   content: PropTypes.string,
   deleteItem: PropTypes.func,
   index: PropTypes.number
 }
-
 
 
 export default TodoItem;

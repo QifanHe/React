@@ -1,6 +1,7 @@
 import React, { Component, Fragment } from 'react';
 import './style.css'
 import TodoItem from './TodoItem'
+import axios from 'axios';
 
 class TodoList extends Component {
 
@@ -16,6 +17,9 @@ class TodoList extends Component {
     this.handleButtonClick = this.handleButtonClick.bind(this);
     this.handleItemDelete = this.handleItemDelete.bind(this);
   }
+
+
+
 
   render() {
     return (
@@ -37,6 +41,19 @@ class TodoList extends Component {
         </ul>
       </Fragment>
     )
+  }
+
+  componentDidMount() {
+    axios.get('/api/todolist')
+      .then((res)=>{
+        console.log(res.data);
+        this.setState(() => {
+          return {
+            list:[...res.data]
+          }
+        })
+      })
+      .catch(()=>{alert('err')})
   }
 
   handleInputChange(e) {
