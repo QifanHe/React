@@ -1,15 +1,19 @@
 life cycle function:
 Component will be called automatically at some time.
 
-Initialization: setup props and state (constructor)
+1. Initialization: setup props and state (constructor)
 
-Mounting: componentWillMount - render - componentDidMount
 
-Updating:
+2. Mounting:
+  componentWillMount
+  render
+  componentDidMount:  called once, could put AJAX in it
+
+3. Updating:
 
  - props:
     componentWillReceiveProps(when the comp EXISTS and prop changed) - shouldCompon....
  - states:
     shouldComponentUpdate(false / true) - componentWillUpdate - render - componentDidUpdate
 
-Unmounting: componentWillUnmount
+4. Unmounting: componentWillUnmount
