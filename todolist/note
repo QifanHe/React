@@ -17,3 +17,6 @@ Component will be called automatically at some time.
     shouldComponentUpdate(false / true) - componentWillUpdate - render - componentDidUpdate
 
 4. Unmounting: componentWillUnmount
+
+
+non-state component: better performance
