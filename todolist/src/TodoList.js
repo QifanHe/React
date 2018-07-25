@@ -1,8 +1,7 @@
-import React, { Component, Fragment } from 'react'
-import 'antd/dist/antd.css'
-import { Input, Button, List } from 'antd'
+import React, { Component } from 'react'
 import store from './store'
-
+import { getTodoList, getAddItemAction, getDeleteItemAction, getInputChangeAction } from './store/actionCreators'
+import TodoListUI from './TodoListUI';
 
 class Todolist extends Component {
 
@@ -12,39 +11,29 @@ class Todolist extends Component {
     this.handleInputChange = this.handleInputChange.bind(this);
     this.handleStoreChange = this.handleStoreChange.bind(this);
     this.handleBtnClick = this.handleBtnClick.bind(this);
+    this.handleItemDelete = this.handleItemDelete.bind(this);
     store.subscribe(this.handleStoreChange);
   }
 
   render() {
     return (
-      <Fragment>
-        <div style={{margin: '10px 10px'}}>
-          <Input
-            onChange={this.handleInputChange}
-            value={this.state.inputValue}
-            placeholder='todo info'
-            style={{width: '300px', marginRight: '10px'}}
-          />
-        <Button type='primary' onClick={this.handleBtnClick}>Submit</Button>
-        </div>
-        <div>
-          <List
-            style={{marginTop:'10px', width:'300px'}}
-            bordered
-            dataSource={this.state.list}
-            renderItem={item => (<List.Item>{item}</List.Item>)}
-          />
-        </div>
-
-      </Fragment>
+      <TodoListUI
+        inputValue={this.state.inputValue}
+        handleInputChange={this.handleInputChange}
+        handleBtnClick={this.handleBtnClick}
+        list={this.state.list}
+        handleItemDelete={this.handleItemDelete}
+      />
     )
   }
 
+  componentDidMount() {
+    const action = getTodoList();
+    store.dispatch(action);
+  }
+
   handleInputChange(e) {
-    const action = {
-      type: 'change_input_value',
-      value: e.target.value
-    }
+    const action = getInputChangeAction(e.target.value);
     store.dispatch(action)
   }
 
@@ -52,10 +41,13 @@ class Todolist extends Component {
     this.setState(store.getState());
   }
 
+  handleItemDelete(index) {
+    const action = getDeleteItemAction(index);
+    store.dispatch(action);
+  }
+
   handleBtnClick() {
-    const action = {
-      type: 'add_todo_item'
-    };
+    const action = getAddItemAction();
     store.dispatch(action);
   }
 
